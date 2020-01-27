@@ -15,32 +15,33 @@
 # ## Post-Conditions: Ouputs an array of sorted numbers
 #######################################################################
 
-def knapSack(bagCap, itemNum, weightArr, valueArr):
+def knapSack(bagCap, numItems, weightArr, valueArr):
 
-    sackArr = [[0 for x in range(bagCap + 1)] for x in range(itemNum + 1)]
+    row = numItems + 1
+    column = bagCap + 1
 
-    for indexRow in range(itemNum + 1):
+    sack = [[0 for x in range(column)] for x in range(row)]
 
-        for indexColumn in range(bagCap + 1):
+    for rowIndex in range(row):
 
-            if(indexRow == 0 or indexColumn == 0):
+        for columnIndex in range(column):
 
-                sackArr[indexRow][indexColumn] = 0
+            if(columnIndex == 0 or rowIndex == 0):
 
-            elif weightArr[indexRow-1] >= indexColumn:
+                sack[rowIndex][columnIndex] = 0
 
-                pickItem = (valueArr[indexRow-1] + sackArr[indexRow-1][indexColumn - weightArr[indexRow-1]])
-                dnPickItem = (sackArr[indexRow-1][indexColumn])
+            elif(weightArr[rowIndex - 1] <= columnIndex):
 
-                sackArr[indexRow][indexColumn] = max(pickItem, dnPickItem)
+                pickItem = valueArr[rowIndex - 1] + sack[rowIndex - 1][columnIndex-weightArr[rowIndex - 1]]
+                dPickItem = sack[rowIndex - 1][columnIndex]
+                sack[rowIndex][columnIndex] = max(dPickItem,  pickItem)
 
             else:
 
-                dnPickItem = sackArr[indexRow-1][indexColumn]
+                dPickItem = sack[rowIndex - 1][columnIndex]
+                sack[rowIndex][columnIndex] = dPickItem
 
-                sackArr[indexRow][indexColumn] = dnPickItem
-
-    return sackArr[itemNum][bagCap]
+    return sack[numItems][bagCap]
 
 #######################################################################
 # ## Function: main
