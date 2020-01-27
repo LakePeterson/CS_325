@@ -9,10 +9,10 @@
 
 #######################################################################
 # ## Function: knapsackAlg
-# ## Description: Finds the opt
-# ## Parameters: Needs an array
-# ## Pre-Conditions: Takes in an array of numbers
-# ## Post-Conditions: Ouputs an array of sorted numbers
+# ## Description: Finds the optimal subset from based off of the data
+# ## Parameters: Needs an array of weights and an array of values
+# ## Pre-Conditions: Takes in an two arrays, as well as capacity and number of items
+# ## Post-Conditions: Return the optimal subset
 #######################################################################
 
 def knapSack(bagCap, numItems, weightArr, valueArr):
@@ -20,10 +20,10 @@ def knapSack(bagCap, numItems, weightArr, valueArr):
     row = numItems + 1
     column = bagCap + 1
 
-    sack = [[0 for x in range(column)] for x in range(row)]
+    sack = [[0 for x in range(column)] for x in range(row)]                                         #Declaring/seeding an array to represent the knapsack
 
-    for rowIndex in range(row):
-
+    for rowIndex in range(row):                                                                     #Traverse through the sack to find the optimal
+                                                                                                    #optimal subset from the data.
         for columnIndex in range(column):
 
             if(columnIndex == 0 or rowIndex == 0):
@@ -41,7 +41,7 @@ def knapSack(bagCap, numItems, weightArr, valueArr):
                 dPickItem = sack[rowIndex - 1][columnIndex]
                 sack[rowIndex][columnIndex] = dPickItem
 
-    return sack[numItems][bagCap]
+    return sack[numItems][bagCap]                                                                   #Return the optimal subset
 
 #######################################################################
 # ## Function: main
@@ -49,17 +49,19 @@ def knapSack(bagCap, numItems, weightArr, valueArr):
 
 def main():
 
-    data = open("data.txt", "r")
+    data = open("data.txt", "r")                                                                    #Open the file data.txt
 
-    for row in data:
-        weightArr = list(map(int, row.split(' ')))
+    for row in data:                                                                                #Set the weight array equal to the first
+        weightArr = list(map(int, row.split(' ')))                                                  #row of data
         break;
-    for row in data:
-        valueArr = list(map(int, row.split(' ')))
+    for row in data:                                                                                #Set the value array equal to the second
+        valueArr = list(map(int, row.split(' ')))                                                   #row of data
 
     data.close()
 
-    print(knapSack(6, len(valueArr), weightArr, valueArr))
+    optimalSubset = knapSack(6, len(valueArr), weightArr, valueArr)
+
+    print("The optimal subset is:", optimalSubset)                                                 #Print out the optimal subset
 
 if __name__ == "__main__":
 
